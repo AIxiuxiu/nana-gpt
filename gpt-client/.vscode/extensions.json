@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "mikestead.dotenv",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "vue.volar",
+    "rain.vue-scss-variable-scan",
+    "eamodio.gitlens",
+    "ms-ceintl.vscode-language-pack-zh-hans",
+    "gencer.html-slim-scss-css-class-completion"
+  ]
+}

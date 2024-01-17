@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Error Page</h1>
+<p>Application has encountered an error. Please contact support on ...</p>
+
+<div style="display: none">
+    errorCode: <th:block th:text="${errorCode}"></th:block>
+    errorMsg: <th:block th:text="${errorMsg}"></th:block>
+    exception: <th:block th:text="${exception}"></th:block>
+</div>
+
+</body>
+</html>

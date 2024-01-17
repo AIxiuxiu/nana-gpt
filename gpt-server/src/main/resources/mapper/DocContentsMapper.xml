@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.website.mapper.DocContentsMapper">
+
+    <!-- 查询向量化数量 -->
+    <select id="getEmbedCount" resultType="Map">
+        SELECT COUNT(1) as total,
+               SUM(CASE WHEN `embedStatus` = 0 THEN 1 ELSE 0 END) as undone,
+               SUM(CASE WHEN `embedStatus` = 1 THEN 1 ELSE 0 END) as completed,
+               SUM(CASE WHEN `embedStatus` = 2 THEN 1 ELSE 0 END) as error
+        FROM doc_contents WHERE docId = #{docId}
+    </select>
+
+    <!-- 查询QA数量 -->
+    <select id="getQaCount" resultType="Map">
+        SELECT COUNT(1) as total,
+               SUM(CASE WHEN `hasQA` = 0 THEN 1 ELSE 0 END) as undone,
+               SUM(CASE WHEN `hasQA` = 1 THEN 1 ELSE 0 END) as completed,
+               SUM(CASE WHEN `hasQA` = 2 THEN 1 ELSE 0 END) as error
+        FROM doc_contents WHERE docId = #{docId}
+    </select>
+
+    <!-- 查询总结数量 -->
+    <select id="getSummaryCount" resultType="Map">
+        SELECT COUNT(1) as total,
+               SUM(CASE WHEN `summaryStatus` = 0 THEN 1 ELSE 0 END) as undone,
+               SUM(CASE WHEN `summaryStatus` = 1 THEN 1 ELSE 0 END) as completed,
+               SUM(CASE WHEN `summaryStatus` = 2 THEN 1 ELSE 0 END) as error
+        FROM doc_contents WHERE docId = #{docId}
+    </select>
+
+    <select id="getContextList" resultType="java.util.HashMap">
+        SELECT CONCAT('docContents_',id) as id, content from doc_contents WHERE
+        <if test="contentIds != null and contentIds.size() > 0">
+        id in
+            <foreach item="item" index="index" collection="contentIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="contentIds==null or contentIds.size ==  0">
+            1 = 0
+        </if>
+        UNION ALL
+        SELECT CONCAT('qa_',id) as id, CONCAT(question,'\n', answer) as content from qa WHERE
+        <if test="qaIds != null and qaIds.size() > 0">
+            id in
+            <foreach item="item" index="index" collection="qaIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="qaIds==null or qaIds.size ==  0">
+            1 = 0
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.website.mapper.KbSettingMapper">
+
+
+    <select id="getSettingByKbId" resultType="com.website.entity.KbSetting">
+        SELECT *
+        FROM  kb_setting
+        WHERE kbId=#{kbId}
+    </select>
+
+
+    <select id="getSettingByDocId" resultType="com.website.entity.KbSetting">
+        SELECT kb.*
+        FROM document d
+                 left join kb_setting kb on d.kbId = kb.kbId
+        WHERE d.id=#{docId}
+    </select>
+
+
+</mapper>
